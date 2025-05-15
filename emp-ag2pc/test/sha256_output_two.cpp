@@ -1,0 +1,93 @@
+#include <emp-tool/emp-tool.h>
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <iomanip>
+#include "test/single_execution.h"
+#include "test/plaintext_sha256.h"
+#include <time.h>
+using namespace std;
+using namespace emp;
+
+#define IPAD "36"
+#define OPAD "5c"
+
+string sha256_padding(const string &hex_str);
+string zero_padding(const string &hex_str, size_t target_length);
+size_t get_padding_length(const string &hex_str);
+string utf8_to_hex(const std::string &utf8_str);
+
+string iv_0 = "e6679056a175e6dd4ecf763c5caff2a5fe4a708a3116a0d9d59bc1f898b307da";
+
+int main(int argc, char** argv) {
+	int party, port;
+	parse_party_and_port(argv, &party, &port);
+	NetIO* io = new NetIO(party==ALICE ? nullptr:IP, port);
+//	io->set_nodelay();
+	string msg = "master secret";
+	msg = utf8_to_hex(msg);
+	string r_s = "51857de7ce69485fce82d1329cbd4a368a1f0da282428a29e9eafe752a3e0642";
+	string r_c = "15e71104745f8d7b423995f0a7120ca5c0333a41f7ffd3267fafb91d7f9c5509";
+
+    string share_1 = "aaaaffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
+    string share_2 = "11110000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+
+    string hash = ag2pc_exec(party, io, circuit_file_location+"sha256_output_state.txt",
+        share_1 + iv_0 + share_2
+    );
+
+    cout << hash << endl;
+
+    string f_H_opad = ag2pc_exec(party, io, circuit_file_location+"sha256_output_two.txt",
+        r_s + share_1 + iv_0 + r_c + share_2
+    );
+
+    cout << f_H_opad << endl;
+
+	delete io;
+	return 0;
+}
+
+string sha256_padding(const string &hex_str) {
+    size_t original_length = hex_str.length();
+    size_t padded_length = ((original_length + 64) / 64) * 64 + 64;
+
+    // Add the '1' bit (0x80 in hex, i.e., 8 bits) to the end of the hex string
+    string padded_str = hex_str + "80";
+
+    // Add '0's to make the string length 64-byte aligned minus the 64-bit length
+    while (padded_str.length() < padded_length - 16) {
+        padded_str += "00";
+    }
+
+    // Append the length of the original string (in bits) in hex (64-bit length)
+    stringstream length_stream;
+    length_stream << setfill('0') << setw(16) << hex << original_length * 4;
+    padded_str += length_stream.str();
+
+    return padded_str;
+}
+
+string zero_padding(const string &hex_str, size_t target_length) {
+    string filled_str = hex_str;
+    while (filled_str.length() < target_length) {
+        filled_str += "00";
+    }
+    return filled_str;
+}
+
+size_t get_padding_length(const string &hex_str) {
+	size_t original_length = hex_str.length();
+    size_t padded_length = ((original_length + 64) / 64) * 64 + 64;
+	return padded_length;
+}
+
+string utf8_to_hex(const std::string &utf8_str) {
+    stringstream hex_stream;
+
+    for (unsigned char c : utf8_str) {
+        hex_stream << std::setw(2) << std::setfill('0') << std::hex << (int)c;
+    }
+
+    return hex_stream.str();
+}

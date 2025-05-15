@@ -1,0 +1,1 @@
+/usr/bin/c++   -pthread -Wall -funroll-loops -Wno-ignored-attributes -Wno-unused-result -march=native -maes -mrdseed -std=c++11 -O3 -O3 -DNDEBUG -rdynamic "CMakeFiles/test_add2xor-p256.dir/add2xor-p256.cpp.o" -o ../bin/test_add2xor-p256  -Wl,-rpath,/usr/local/lib /usr/local/lib/libemp-tool.so -lssl -lcrypto 

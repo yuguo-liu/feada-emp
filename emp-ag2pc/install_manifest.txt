@@ -1,0 +1,9 @@
+/usr/local/cmake/emp-ag2pc-config.cmake
+/usr/local/include/emp-ag2pc/feq.h
+/usr/local/include/emp-ag2pc/2pc.h
+/usr/local/include/emp-ag2pc/amortized_2pc.h
+/usr/local/include/emp-ag2pc/fpre.h
+/usr/local/include/emp-ag2pc/helper.h
+/usr/local/include/emp-ag2pc/leaky_deltaot.h
+/usr/local/include/emp-ag2pc/emp-ag2pc.h
+/usr/local/include/emp-ag2pc/config.h

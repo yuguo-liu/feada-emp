@@ -1,0 +1,1 @@
+/usr/bin/c++   -pthread -Wall -funroll-loops -Wno-ignored-attributes -Wno-unused-result -march=native -maes -mrdseed -std=c++11 -O3 -O3 -DNDEBUG -rdynamic CMakeFiles/test_to_bool.dir/to_bool.cpp.o -o ../bin/test_to_bool  -Wl,-rpath,/home/hugo/Desktop/emp/emp-tool -lssl -lcrypto ../libemp-tool.so 

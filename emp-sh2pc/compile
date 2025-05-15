@@ -1,0 +1,4 @@
+#!/bin/bash
+cd ..
+python install.py --tool --ot --sh2pc --ag2pc
+cd emp-sh2pc

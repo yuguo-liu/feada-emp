@@ -1,0 +1,6 @@
+/usr/local/cmake/emp-sh2pc-config.cmake
+/usr/local/include//emp-sh2pc/semihonest.h
+/usr/local/include//emp-sh2pc/sh_eva.h
+/usr/local/include//emp-sh2pc/emp-sh2pc.h
+/usr/local/include//emp-sh2pc/sh_gen.h
+/usr/local/include//emp-sh2pc/sh_party.h

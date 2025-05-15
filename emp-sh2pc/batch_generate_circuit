@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# traverse i from 1 to 50
+for i in 64 128; do
+    # modify the 5-th line of aes_gcm.cpp
+    # sed -i "5c\#define BLOCK $i" test/aes_gcm.cpp
+
+    # # modify the 5-th line of aes_gcm_dec.cpp
+    # sed -i "5c\#define BLOCK $i" test/aes_gcm_dec.cpp
+    
+    # # modify the 5-th line of predicate_aes_gcm.cpp
+    sed -i "5c\#define BLOCK $i" test/predicate_aes_gcm.cpp
+
+    # # modify the 5-th line of predicate_enc_ghash.cpp
+    # sed -i "5c\#define BLOCK $i" test/predicate_enc_ghash.cpp
+    
+    ./compile
+    
+    # ./run ./bin/test_aes_gcm_dec 12345
+
+    # ./run ./bin/test_aes_gcm 12345
+    
+    ./run ./bin/test_predicate_aes_gcm 12345
+
+    # ./run ./bin/test_predicate_enc_ghash 12345
+done
